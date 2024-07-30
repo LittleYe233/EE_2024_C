@@ -26,6 +26,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "bsp_ad9959.h"
+#include "bsp_matrix.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -47,6 +48,7 @@
 
 /* USER CODE BEGIN PV */
 char UART_Buffer[UART_Buffer_Len];
+GPIO_PinState Matrix_Lines_Status[MATRIX_N_ROWS + MATRIX_N_COLS];
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -67,6 +69,7 @@ PUTCHAR_PROTOTYPE
 // Peripheral test function
 void Taojingchi_Test();
 void AD9959_Test();
+void MatrixKeyboard_Test();
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -121,6 +124,7 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
+    MatrixKeyboard_Test();
   }
   /* USER CODE END 3 */
 }
@@ -181,10 +185,75 @@ void Taojingchi_Test() {
 }
 
 void AD9959_Test() {
-  AD9959_Set_Signal(0, 1000, 0, 1023);
-  AD9959_Set_Signal(1, 2000000, 90, 1023);
-  AD9959_Set_Signal(2, 40000000, 180, 1023);
-  AD9959_Set_Signal(3, 40000000, 360, 1023);
+  AD9959_Set_Signal(0, 40000000, 0, 1023);
+  AD9959_Set_Signal(1, 2000000, 0, 1023);
+  AD9959_Set_Signal(2, 40000000, 0, 1023);
+  AD9959_Set_Signal(3, 2000000, 0, 1);
+}
+
+void MatrixKeyboard_Test() {
+  Matrix_Key key = Matrix_Key_Scan();
+
+  // printf("%d   ", key);
+
+  // if (key != MATRIX_KEY_EMPTY) {
+  //   // Supress long press
+  //   while (Matrix_Key_Scan() != MATRIX_KEY_EMPTY);
+  //   // Print key
+  //   switch (key) {
+  //     case MATRIX_KEY_1:
+  //       printf("1\n");
+  //       break;
+  //     case MATRIX_KEY_2:
+  //       printf("2\n");
+  //       break;
+  //     case MATRIX_KEY_3:
+  //       printf("3\n");
+  //       break;
+  //     case MATRIX_KEY_4:
+  //       printf("4\n");
+  //       break;
+  //     case MATRIX_KEY_5:
+  //       printf("5\n");
+  //       break;
+  //     case MATRIX_KEY_6:
+  //       printf("6\n");
+  //       break;
+  //     case MATRIX_KEY_7:
+  //       printf("7\n");
+  //       break;
+  //     case MATRIX_KEY_8:
+  //       printf("8\n");
+  //       break;
+  //     case MATRIX_KEY_9:
+  //       printf("9\n");
+  //       break;
+  //     case MATRIX_KEY_10:
+  //       printf("10\n");
+  //       break;
+  //     case MATRIX_KEY_11:
+  //       printf("11\n");
+  //       break;
+  //     case MATRIX_KEY_12:
+  //       printf("12\n");
+  //       break;
+  //     case MATRIX_KEY_13:
+  //       printf("13\n");
+  //       break;
+  //     case MATRIX_KEY_14:
+  //       printf("14\n");
+  //       break;
+  //     case MATRIX_KEY_15:
+  //       printf("15\n");
+  //       break;
+  //     case MATRIX_KEY_16:
+  //       printf("16\n");
+  //       break;
+  //     case MATRIX_KEY_EMPTY:
+  //       // No key
+  //       break;
+  //   }
+  // }
 }
 /* USER CODE END 4 */
 
