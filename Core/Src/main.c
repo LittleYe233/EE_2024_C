@@ -18,16 +18,14 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
-#include "stm32f4xx_hal_def.h"
-#include "stm32f4xx_hal_uart.h"
 #include "usart.h"
 #include "gpio.h"
-#include <stdio.h>
-#include <string.h>
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include <stdio.h>
+#include <string.h>
+#include "bsp_ad9959.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -68,6 +66,7 @@ PUTCHAR_PROTOTYPE
 
 // Peripheral test function
 void Taojingchi_Test();
+void AD9959_Test();
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -109,7 +108,10 @@ int main(void)
   /* USER CODE BEGIN 2 */
   printf("Welcome to EE 2024 C!\n");
 
+  AD9959_GPIO_Init();
+
   Taojingchi_Test();
+  AD9959_Test();
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -176,6 +178,13 @@ void Taojingchi_Test() {
   HAL_StatusTypeDef status = HAL_UART_Transmit(
       &huart2, (const uint8_t *)UART_Buffer, strlen(UART_Buffer), 1000);
   printf("%d\n", status);
+}
+
+void AD9959_Test() {
+  AD9959_Set_Signal(0, 1000, 0, 1023);
+  AD9959_Set_Signal(1, 2000000, 90, 1023);
+  AD9959_Set_Signal(2, 40000000, 180, 1023);
+  AD9959_Set_Signal(3, 40000000, 360, 1023);
 }
 /* USER CODE END 4 */
 
