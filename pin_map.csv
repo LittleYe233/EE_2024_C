@@ -1,0 +1,14 @@
+mcu_pin,mcu_pin_info,other_type,other_pin
+GND,,Taojingchi,GND
+PA2,USART2_TX,Taojingchi,RX
+PA3,USART2_RX,Taojingchi,TX
+5V,,Taojingchi,5V
+PD14,,MatrixKeyboard,Line8
+PD0,,MatrixKeyboard,Line7
+PE7,,MatrixKeyboard,Line6
+PE9,,MatrixKeyboard,Line5
+PE11,,MatrixKeyboard,Line4
+PE13,,MatrixKeyboard,Line3
+PE15,,MatrixKeyboard,Line2
+PD9,,MatrixKeyboard,Line1
+
