@@ -170,7 +170,7 @@ void SystemClock_Config(void)
 
 /* USER CODE BEGIN 4 */
 void Taojingchi_Test() {
-  sprintf(UART_Buffer, "start.t1.txt=\"1024\"\xff\xff\xff");
+  sprintf(UART_Buffer, "main.sd_type.txt=\"AM\"\xff\xff\xff");
   printf("%s", UART_Buffer);
   printf("Welcome to EE 2024 C 2!\n");
   HAL_StatusTypeDef status = HAL_UART_Transmit(
