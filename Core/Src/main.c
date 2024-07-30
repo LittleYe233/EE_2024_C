@@ -65,6 +65,9 @@ PUTCHAR_PROTOTYPE
   HAL_UART_Transmit(&huart1, (uint8_t *)&ch, 1, 10);
   return ch;
 }
+
+// Peripheral test function
+void Taojingchi_Test();
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -106,11 +109,7 @@ int main(void)
   /* USER CODE BEGIN 2 */
   printf("Welcome to EE 2024 C!\n");
 
-  sprintf(UART_Buffer, "start.t1.txt=\"1024\"\xff\xff\xff");
-  printf("%s", UART_Buffer);
-  printf("Welcome to EE 2024 C 2!\n");
-  HAL_StatusTypeDef status = HAL_UART_Transmit(&huart2, (const uint8_t *)UART_Buffer, strlen(UART_Buffer), 1000);
-  printf("%d\n", status);
+  Taojingchi_Test();
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -170,7 +169,14 @@ void SystemClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
-
+void Taojingchi_Test() {
+  sprintf(UART_Buffer, "start.t1.txt=\"1024\"\xff\xff\xff");
+  printf("%s", UART_Buffer);
+  printf("Welcome to EE 2024 C 2!\n");
+  HAL_StatusTypeDef status = HAL_UART_Transmit(
+      &huart2, (const uint8_t *)UART_Buffer, strlen(UART_Buffer), 1000);
+  printf("%d\n", status);
+}
 /* USER CODE END 4 */
 
 /**
