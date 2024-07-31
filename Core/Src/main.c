@@ -18,6 +18,7 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "stm32f4xx_hal.h"
 #include "usart.h"
 #include "gpio.h"
 
@@ -138,6 +139,8 @@ int main(void)
     /* USER CODE BEGIN 3 */
     Matrix_Key key = MatrixKeyboard_Test();
     ParamSet_Process(key);
+    // Add delay to reduce output signal glitch
+    HAL_Delay(100);
   }
   /* USER CODE END 3 */
 }
@@ -273,6 +276,7 @@ Matrix_Key MatrixKeyboard_Test() {
 
 void AD9959_UpdateParams() {
   uint16_t mod_signal_amp_n_1, mod_signal_amp_n_2;
+  double sm_carrier_delay_to_degree, mod_signal_delay_to_degree;
 
   if (Param_sd_type == SD_CW) {
     // CW wave, mod signal amplitude is the least
@@ -281,18 +285,34 @@ void AD9959_UpdateParams() {
   } else {
     // DC offset
     double mod_signal_amp_1 = (double)Param_mod_depth / 100 * 188;
-    double mod_signal_amp_2 = (double)Param_mod_depth / 100 * 212;
-    // Max Vpp is 480mV, max voltage is 240mV
-    mod_signal_amp_n_1 = (uint16_t)(mod_signal_amp_1 / AD9959_Max_Voltage * AD9959_Max_Quantification);
-    mod_signal_amp_n_2 = (uint16_t)(mod_signal_amp_2 / AD9959_Max_Voltage * AD9959_Max_Quantification);
+    double mod_signal_amp_2 = (double)Param_mod_depth / 100 * 180;
+    // Max voltage is 250mV, not AD9959_Max_Voltage
+    mod_signal_amp_n_1 = (uint16_t)(mod_signal_amp_1 / 250 * AD9959_Max_Quantification);
+    mod_signal_amp_n_2 = (uint16_t)(mod_signal_amp_2 / 250 * AD9959_Max_Quantification);
   }
 
   // Param_carrier_amp is RMS!!
-  uint16_t carrier_amp_n_1 = (uint16_t)(Param_carrier_amp * 1.414 / AD9959_Max_Voltage * AD9959_Max_Quantification);
-  uint16_t carrier_amp_n_2 = carrier_amp_n_1;
+  // Channel 1 (Sd) has an 8.7x amplifier, while Channel 2 (Sm) has an 8.2x amplifier.
+  uint16_t carrier_amp_n_1 = (uint16_t)(Param_carrier_amp * 1.414 / 8.7 / AD9959_Max_Voltage * AD9959_Max_Quantification);
+  uint16_t carrier_amp_n_2 = (uint16_t)(Param_carrier_amp * 1.414 / 8.2 / AD9959_Max_Voltage * AD9959_Max_Quantification);
 
-  AD9959_Set_Signal(0, 2000000, 0, mod_signal_amp_n_1);
-  AD9959_Set_Signal(1, Param_carrier_freq * 1000000, 0, carrier_amp_n_1);
+  uint16_t sm_phase_n = Param_sm_phase;
+
+  // Phase & Delay
+  double carrier_period_ns = 1000.0 / Param_carrier_freq;
+  double mod_signal_period_ns = 500;
+  if (Param_sd_type == SD_CW) {
+    sm_carrier_delay_to_degree = Param_sm_delay / carrier_period_ns * 360;
+    mod_signal_delay_to_degree = Param_sm_delay / mod_signal_period_ns * 360;
+  } else {
+    sm_carrier_delay_to_degree = (Param_sm_delay - 30) / carrier_period_ns * 360;
+    mod_signal_delay_to_degree = (Param_sm_delay - 30) / mod_signal_period_ns * 360;
+  }
+  uint16_t sm_phase_carrier_final = (uint16_t)(230 + sm_phase_n + sm_carrier_delay_to_degree) % 360;
+  uint16_t sm_phase_mod_signal_final = (uint16_t)(230 + sm_phase_n + mod_signal_delay_to_degree) % 360;
+
+  AD9959_Set_Signal(0, 2000000, sm_phase_mod_signal_final, mod_signal_amp_n_1);
+  AD9959_Set_Signal(1, Param_carrier_freq * 1000000, sm_phase_carrier_final, carrier_amp_n_1);
   AD9959_Set_Signal(2, Param_carrier_freq * 1000000, 0, carrier_amp_n_2);
   AD9959_Set_Signal(3, 2000000, 0, mod_signal_amp_n_2);
 }

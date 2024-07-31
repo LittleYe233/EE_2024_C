@@ -32,6 +32,8 @@ const ParamSet_StepInfo_TypeDef PARAMSET_STEPINFO_MOD_DEPTH = { 30, 90, 10 };
 const ParamSet_StepInfo_TypeDef PARAMSET_STEPINFO_SM_AMP_DECAY = { 0, 20, 2 };
 const ParamSet_StepInfo_TypeDef PARAMSET_STEPINFO_SM_DELAY = { 50, 200, 30 };
 const ParamSet_StepInfo_TypeDef PARAMSET_STEPINFO_SM_PHASE = { 0, 180, 30};
+/** @test */
+// const ParamSet_StepInfo_TypeDef PARAMSET_STEPINFO_SM_PHASE = { 0, 180, 10};
 
 static void __ParamSet_SetParam(uint16_t *param, ParamSet_StepInfo_TypeDef info, ParamSet_Step_Direction dir) {
   if (dir == PARAMSET_STEP_MINUS) {
