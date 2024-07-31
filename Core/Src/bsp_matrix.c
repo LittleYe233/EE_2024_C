@@ -31,10 +31,10 @@ const Matrix_Line_GPIO_TypeDef MATRIX_LINE_GPIO_COLS[MATRIX_N_COLS] = {
 
 
 const Matrix_Key MATRIX_LINE_KEY_MAP[MATRIX_N_ROWS][MATRIX_N_COLS] = {
-  { MATRIX_KEY_1, MATRIX_KEY_2, MATRIX_KEY_3, MATRIX_KEY_4 },
-  { MATRIX_KEY_5, MATRIX_KEY_6, MATRIX_KEY_7, MATRIX_KEY_8 },
-  { MATRIX_KEY_9, MATRIX_KEY_10, MATRIX_KEY_11, MATRIX_KEY_12 },
-  { MATRIX_KEY_13, MATRIX_KEY_14, MATRIX_KEY_15, MATRIX_KEY_16 }
+  { MATRIX_KEY_16, MATRIX_KEY_15, MATRIX_KEY_14, MATRIX_KEY_13 },
+  { MATRIX_KEY_12, MATRIX_KEY_11, MATRIX_KEY_10, MATRIX_KEY_9 },
+  { MATRIX_KEY_8, MATRIX_KEY_7, MATRIX_KEY_6, MATRIX_KEY_5 },
+  { MATRIX_KEY_4, MATRIX_KEY_3, MATRIX_KEY_2, MATRIX_KEY_1 }
 };
 
 static Matrix_Line_Col __Matrix_Row_Scan(Matrix_Line_Row row) {
@@ -60,14 +60,14 @@ static Matrix_Line_Col __Matrix_Row_Scan(Matrix_Line_Row row) {
   }
 
   /** @test */
-  printf("Row %d | ", row);
-  for (uint8_t i = 0; i < MATRIX_N_ROWS; ++i) {
-    printf("%d ", HAL_GPIO_ReadPin(MATRIX_LINE_GPIO_ROWS[i].port, MATRIX_LINE_GPIO_ROWS[i].pin));
-  }
-  for (uint8_t i = 0; i < MATRIX_N_COLS; ++i) {
-    printf("%d ", HAL_GPIO_ReadPin(MATRIX_LINE_GPIO_COLS[i].port, MATRIX_LINE_GPIO_COLS[i].pin));
-  }
-  printf("\n");
+  // printf("Row %d | ", row);
+  // for (uint8_t i = 0; i < MATRIX_N_ROWS; ++i) {
+  //   printf("%d ", HAL_GPIO_ReadPin(MATRIX_LINE_GPIO_ROWS[i].port, MATRIX_LINE_GPIO_ROWS[i].pin));
+  // }
+  // for (uint8_t i = 0; i < MATRIX_N_COLS; ++i) {
+  //   printf("%d ", HAL_GPIO_ReadPin(MATRIX_LINE_GPIO_COLS[i].port, MATRIX_LINE_GPIO_COLS[i].pin));
+  // }
+  // printf("\n");
 
   return col;
 }

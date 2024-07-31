@@ -185,10 +185,10 @@ void Taojingchi_Test() {
 }
 
 void AD9959_Test() {
-  AD9959_Set_Signal(0, 40000000, 0, 1023);
-  AD9959_Set_Signal(1, 2000000, 0, 1023);
-  AD9959_Set_Signal(2, 40000000, 0, 1023);
-  AD9959_Set_Signal(3, 2000000, 0, 1);
+  AD9959_Set_Signal(0, 40000000, 0, 600);
+  AD9959_Set_Signal(1, 1, 0, 1);
+  AD9959_Set_Signal(2, 40000000, 0, 600);
+  AD9959_Set_Signal(3, 1, 0, 1);
 }
 
 void MatrixKeyboard_Test() {
@@ -196,64 +196,64 @@ void MatrixKeyboard_Test() {
 
   // printf("%d   ", key);
 
-  // if (key != MATRIX_KEY_EMPTY) {
-  //   // Supress long press
-  //   while (Matrix_Key_Scan() != MATRIX_KEY_EMPTY);
-  //   // Print key
-  //   switch (key) {
-  //     case MATRIX_KEY_1:
-  //       printf("1\n");
-  //       break;
-  //     case MATRIX_KEY_2:
-  //       printf("2\n");
-  //       break;
-  //     case MATRIX_KEY_3:
-  //       printf("3\n");
-  //       break;
-  //     case MATRIX_KEY_4:
-  //       printf("4\n");
-  //       break;
-  //     case MATRIX_KEY_5:
-  //       printf("5\n");
-  //       break;
-  //     case MATRIX_KEY_6:
-  //       printf("6\n");
-  //       break;
-  //     case MATRIX_KEY_7:
-  //       printf("7\n");
-  //       break;
-  //     case MATRIX_KEY_8:
-  //       printf("8\n");
-  //       break;
-  //     case MATRIX_KEY_9:
-  //       printf("9\n");
-  //       break;
-  //     case MATRIX_KEY_10:
-  //       printf("10\n");
-  //       break;
-  //     case MATRIX_KEY_11:
-  //       printf("11\n");
-  //       break;
-  //     case MATRIX_KEY_12:
-  //       printf("12\n");
-  //       break;
-  //     case MATRIX_KEY_13:
-  //       printf("13\n");
-  //       break;
-  //     case MATRIX_KEY_14:
-  //       printf("14\n");
-  //       break;
-  //     case MATRIX_KEY_15:
-  //       printf("15\n");
-  //       break;
-  //     case MATRIX_KEY_16:
-  //       printf("16\n");
-  //       break;
-  //     case MATRIX_KEY_EMPTY:
-  //       // No key
-  //       break;
-  //   }
-  // }
+  if (key != MATRIX_KEY_EMPTY) {
+    // Supress long press
+    while (Matrix_Key_Scan() != MATRIX_KEY_EMPTY);
+    // Print key
+    switch (key) {
+      case MATRIX_KEY_1:
+        printf("1\n");
+        break;
+      case MATRIX_KEY_2:
+        printf("2\n");
+        break;
+      case MATRIX_KEY_3:
+        printf("3\n");
+        break;
+      case MATRIX_KEY_4:
+        printf("4\n");
+        break;
+      case MATRIX_KEY_5:
+        printf("5\n");
+        break;
+      case MATRIX_KEY_6:
+        printf("6\n");
+        break;
+      case MATRIX_KEY_7:
+        printf("7\n");
+        break;
+      case MATRIX_KEY_8:
+        printf("8\n");
+        break;
+      case MATRIX_KEY_9:
+        printf("9\n");
+        break;
+      case MATRIX_KEY_10:
+        printf("10\n");
+        break;
+      case MATRIX_KEY_11:
+        printf("11\n");
+        break;
+      case MATRIX_KEY_12:
+        printf("12\n");
+        break;
+      case MATRIX_KEY_13:
+        printf("13\n");
+        break;
+      case MATRIX_KEY_14:
+        printf("14\n");
+        break;
+      case MATRIX_KEY_15:
+        printf("15\n");
+        break;
+      case MATRIX_KEY_16:
+        printf("16\n");
+        break;
+      case MATRIX_KEY_EMPTY:
+        // No key
+        break;
+    }
+  }
 }
 /* USER CODE END 4 */
 
