@@ -36,7 +36,10 @@ extern "C" {
 
 /* Exported types ------------------------------------------------------------*/
 /* USER CODE BEGIN ET */
-
+typedef enum {
+  SD_CW,  // CW wave
+  SD_AM   // AM wave
+} SD_Type;
 /* USER CODE END ET */
 
 /* Exported constants --------------------------------------------------------*/
@@ -53,7 +56,7 @@ extern "C" {
 void Error_Handler(void);
 
 /* USER CODE BEGIN EFP */
-
+void AD9959_UpdateParams();
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
@@ -101,7 +104,17 @@ void Error_Handler(void);
 #define AD9959_P3_GPIO_Port GPIOE
 
 /* USER CODE BEGIN Private defines */
+#define UART_Buffer_Len 50
 
+extern uint16_t ad9959_amps[4];
+extern char UART_Buffer[UART_Buffer_Len];
+extern SD_Type Param_sd_type;
+extern uint16_t Param_carrier_amp;
+extern uint16_t Param_carrier_freq;
+extern uint16_t Param_mod_depth;
+extern uint16_t Param_sm_amp_decay;
+extern uint16_t Param_sm_delay;
+extern uint16_t Param_sm_phase;
 /* USER CODE END Private defines */
 
 #ifdef __cplusplus

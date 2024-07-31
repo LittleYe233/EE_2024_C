@@ -18,6 +18,7 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "myparamset.h"
 #include "usart.h"
 #include "gpio.h"
 
@@ -36,7 +37,7 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-#define UART_Buffer_Len 30
+
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -49,6 +50,16 @@
 /* USER CODE BEGIN PV */
 char UART_Buffer[UART_Buffer_Len];
 GPIO_PinState Matrix_Lines_Status[MATRIX_N_ROWS + MATRIX_N_COLS];
+uint16_t ad9959_amps[4];
+
+// Important parameters
+SD_Type Param_sd_type;
+uint16_t Param_carrier_amp;  // 100-1000 mV
+uint16_t Param_carrier_freq;  // 30-40 MHz
+uint16_t Param_mod_depth;  // 30-90 %
+uint16_t Param_sm_amp_decay;  // 0-20 dB
+uint16_t Param_sm_delay;  // 50-200 ns
+uint16_t Param_sm_phase;  // 0-180 degree
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -69,7 +80,7 @@ PUTCHAR_PROTOTYPE
 // Peripheral test function
 void Taojingchi_Test();
 void AD9959_Test();
-void MatrixKeyboard_Test();
+Matrix_Key MatrixKeyboard_Test();
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -112,6 +123,7 @@ int main(void)
   printf("Welcome to EE 2024 C!\n");
 
   AD9959_GPIO_Init();
+  ParamSet_Init();
 
   Taojingchi_Test();
   AD9959_Test();
@@ -124,7 +136,8 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-    MatrixKeyboard_Test();
+    Matrix_Key key = MatrixKeyboard_Test();
+    ParamSet_Process(key);
   }
   /* USER CODE END 3 */
 }
@@ -185,13 +198,13 @@ void Taojingchi_Test() {
 }
 
 void AD9959_Test() {
-  AD9959_Set_Signal(0, 40000000, 0, 600);
-  AD9959_Set_Signal(1, 1, 0, 1);
-  AD9959_Set_Signal(2, 40000000, 0, 600);
-  AD9959_Set_Signal(3, 1, 0, 1);
+  AD9959_Set_Signal(0, Param_carrier_freq * 1000000, 0, 1023);
+  AD9959_Set_Signal(1, 2000000, 0, 1);
+  AD9959_Set_Signal(2, Param_carrier_freq * 1000000, 0, 1023);
+  AD9959_Set_Signal(3, 2000000, 0, 1);
 }
 
-void MatrixKeyboard_Test() {
+Matrix_Key MatrixKeyboard_Test() {
   Matrix_Key key = Matrix_Key_Scan();
 
   // printf("%d   ", key);
@@ -254,6 +267,15 @@ void MatrixKeyboard_Test() {
         break;
     }
   }
+
+  return key;
+}
+
+void AD9959_UpdateParams() {
+  AD9959_Set_Signal(0, Param_carrier_freq * 1000000, 0, 1023);
+  AD9959_Set_Signal(1, 2000000, 0, 1);
+  AD9959_Set_Signal(2, Param_carrier_freq * 1000000, 0, 1023);
+  AD9959_Set_Signal(3, 2000000, 0, 1);
 }
 /* USER CODE END 4 */
 

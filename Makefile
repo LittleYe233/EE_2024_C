@@ -41,6 +41,7 @@ Core/Src/gpio.c \
 Core/Src/usart.c \
 Core/Src/bsp_ad9959.c \
 Core/Src/bsp_matrix.c \
+Core/Src/myparamset.c \
 Core/Src/stm32f4xx_it.c \
 Core/Src/stm32f4xx_hal_msp.c \
 Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_tim.c \
