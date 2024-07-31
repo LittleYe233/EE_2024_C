@@ -126,7 +126,7 @@ int main(void)
   ParamSet_Init();
 
   Taojingchi_Test();
-  AD9959_Test();
+  // AD9959_Test();
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -272,10 +272,20 @@ Matrix_Key MatrixKeyboard_Test() {
 }
 
 void AD9959_UpdateParams() {
-  AD9959_Set_Signal(0, Param_carrier_freq * 1000000, 0, 1023);
-  AD9959_Set_Signal(1, 2000000, 0, 1);
-  AD9959_Set_Signal(2, Param_carrier_freq * 1000000, 0, 1023);
-  AD9959_Set_Signal(3, 2000000, 0, 1);
+  // DC offset is 200mV
+  double mod_signal_amp = (double)Param_mod_depth / 100 * 200;
+  // Max voltage is 480mV
+  uint16_t mod_signal_amp_n = (uint16_t)(mod_signal_amp / 480 * 1023);
+
+  // AD9959_Set_Signal(0, Param_carrier_freq * 1000000, 0, 1023);
+  // AD9959_Set_Signal(1, 2000000, 0, mod_signal_amp_n);
+  // AD9959_Set_Signal(2, Param_carrier_freq * 1000000, 0, 1023);
+  // AD9959_Set_Signal(3, 2000000, 0, mod_signal_amp_n);
+
+  AD9959_Set_Signal(0, 2000000, 0, mod_signal_amp_n);
+  AD9959_Set_Signal(1, 2000000, 0, mod_signal_amp_n);
+  AD9959_Set_Signal(2, 2000000, 0, mod_signal_amp_n);
+  AD9959_Set_Signal(3, 2000000, 0, mod_signal_amp_n);
 }
 /* USER CODE END 4 */
 
