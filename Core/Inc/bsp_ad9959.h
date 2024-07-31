@@ -4,6 +4,10 @@
 #include "stm32f4xx_hal.h"
 #include "main.h"
 
+#define AD9959_Max_Voltage 240  // 240mV
+#define AD9959_Max_Quantification 1023  // 1-1023
+#define AD9959_Min_Quantification 1
+
 #define AD9959_System_Clk 500000000 // AD9959工作频率设定为 500MHz
 
 /***************通道寄存器地址宏定义***************/

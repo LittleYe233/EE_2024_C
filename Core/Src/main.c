@@ -276,20 +276,24 @@ void AD9959_UpdateParams() {
 
   if (Param_sd_type == SD_CW) {
     // CW wave, mod signal amplitude is the least
-    mod_signal_amp_n_1 = 1;
-    mod_signal_amp_n_2 = 1;
+    mod_signal_amp_n_1 = AD9959_Min_Quantification;
+    mod_signal_amp_n_2 = AD9959_Min_Quantification;
   } else {
     // DC offset
     double mod_signal_amp_1 = (double)Param_mod_depth / 100 * 188;
     double mod_signal_amp_2 = (double)Param_mod_depth / 100 * 212;
     // Max Vpp is 480mV, max voltage is 240mV
-    mod_signal_amp_n_1 = (uint16_t)(mod_signal_amp_1 / 240 * 1023);
-    mod_signal_amp_n_2 = (uint16_t)(mod_signal_amp_2 / 240 * 1023);
+    mod_signal_amp_n_1 = (uint16_t)(mod_signal_amp_1 / AD9959_Max_Voltage * AD9959_Max_Quantification);
+    mod_signal_amp_n_2 = (uint16_t)(mod_signal_amp_2 / AD9959_Max_Voltage * AD9959_Max_Quantification);
   }
 
+  // Param_carrier_amp is RMS!!
+  uint16_t carrier_amp_n_1 = (uint16_t)(Param_carrier_amp * 1.414 / AD9959_Max_Voltage * AD9959_Max_Quantification);
+  uint16_t carrier_amp_n_2 = carrier_amp_n_1;
+
   AD9959_Set_Signal(0, 2000000, 0, mod_signal_amp_n_1);
-  AD9959_Set_Signal(1, Param_carrier_freq * 1000000, 0, 1023);
-  AD9959_Set_Signal(2, Param_carrier_freq * 1000000, 0, 1023);
+  AD9959_Set_Signal(1, Param_carrier_freq * 1000000, 0, carrier_amp_n_1);
+  AD9959_Set_Signal(2, Param_carrier_freq * 1000000, 0, carrier_amp_n_2);
   AD9959_Set_Signal(3, 2000000, 0, mod_signal_amp_n_2);
 }
 /* USER CODE END 4 */
