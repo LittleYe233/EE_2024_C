@@ -67,10 +67,11 @@ void MX_GPIO_Init(void)
   HAL_GPIO_WritePin(GPIOD, Key_Line_R1_Pin|AD9959_P1_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOG, AD9959_SD3_Pin|AD9959_SD0_Pin|AD9959_SD1_Pin|AD9959_CLK_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOG, AD9959_SD3_Pin|AD9959_SD0_Pin|AD9959_SD1_Pin|AD9959_RST_Pin
+                          |AD9959_CLK_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOC, AD9959_RST_Pin|AD9959_PDC_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(AD9959_PDC_GPIO_Port, AD9959_PDC_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pins : PFPin PFPin */
   GPIO_InitStruct.Pin = AD9959_SD2_Pin|AD9959_CS_Pin;
@@ -112,19 +113,21 @@ void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
   HAL_GPIO_Init(Key_Line_R1_GPIO_Port, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : PGPin PGPin PGPin PGPin */
-  GPIO_InitStruct.Pin = AD9959_SD3_Pin|AD9959_SD0_Pin|AD9959_SD1_Pin|AD9959_CLK_Pin;
+  /*Configure GPIO pins : PGPin PGPin PGPin PGPin
+                           PGPin */
+  GPIO_InitStruct.Pin = AD9959_SD3_Pin|AD9959_SD0_Pin|AD9959_SD1_Pin|AD9959_RST_Pin
+                          |AD9959_CLK_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOG, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : PCPin PCPin */
-  GPIO_InitStruct.Pin = AD9959_RST_Pin|AD9959_PDC_Pin;
+  /*Configure GPIO pin : PtPin */
+  GPIO_InitStruct.Pin = AD9959_PDC_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
+  HAL_GPIO_Init(AD9959_PDC_GPIO_Port, &GPIO_InitStruct);
 
   /*Configure GPIO pin : PtPin */
   GPIO_InitStruct.Pin = AD9959_P1_Pin;

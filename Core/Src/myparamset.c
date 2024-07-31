@@ -86,7 +86,7 @@ static void __ParamSet_Transmit() {
 }
 
 void ParamSet_Init() {
-  Param_sd_type = SD_CW;
+  Param_sd_type = SD_AM;
   Param_carrier_amp = 500;
   Param_carrier_freq = 35;
   Param_mod_depth = 60;

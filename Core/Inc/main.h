@@ -86,8 +86,6 @@ void AD9959_UpdateParams();
 #define Key_Line_C2_GPIO_Port GPIOG
 #define AD9959_SD3_Pin GPIO_PIN_8
 #define AD9959_SD3_GPIO_Port GPIOG
-#define AD9959_RST_Pin GPIO_PIN_8
-#define AD9959_RST_GPIO_Port GPIOC
 #define AD9959_PDC_Pin GPIO_PIN_11
 #define AD9959_PDC_GPIO_Port GPIOC
 #define AD9959_P1_Pin GPIO_PIN_4
@@ -96,6 +94,8 @@ void AD9959_UpdateParams();
 #define AD9959_SD0_GPIO_Port GPIOG
 #define AD9959_SD1_Pin GPIO_PIN_10
 #define AD9959_SD1_GPIO_Port GPIOG
+#define AD9959_RST_Pin GPIO_PIN_11
+#define AD9959_RST_GPIO_Port GPIOG
 #define AD9959_CLK_Pin GPIO_PIN_15
 #define AD9959_CLK_GPIO_Port GPIOG
 #define AD9959_P0_Pin GPIO_PIN_9

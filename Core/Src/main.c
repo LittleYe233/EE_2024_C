@@ -18,7 +18,6 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
-#include "myparamset.h"
 #include "usart.h"
 #include "gpio.h"
 
@@ -28,6 +27,7 @@
 #include <string.h>
 #include "bsp_ad9959.h"
 #include "bsp_matrix.h"
+#include "myparamset.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -198,10 +198,10 @@ void Taojingchi_Test() {
 }
 
 void AD9959_Test() {
-  AD9959_Set_Signal(0, Param_carrier_freq * 1000000, 0, 1023);
-  AD9959_Set_Signal(1, 2000000, 0, 1);
-  AD9959_Set_Signal(2, Param_carrier_freq * 1000000, 0, 1023);
-  AD9959_Set_Signal(3, 2000000, 0, 1);
+  AD9959_Set_Signal(0, 2000000, 0, 512);
+  AD9959_Set_Signal(1, 40000000, 0, 1023);
+  AD9959_Set_Signal(2, 40000000, 0, 1023);
+  AD9959_Set_Signal(3, 2000000, 0, 512);
 }
 
 Matrix_Key MatrixKeyboard_Test() {
@@ -272,20 +272,25 @@ Matrix_Key MatrixKeyboard_Test() {
 }
 
 void AD9959_UpdateParams() {
-  // DC offset is 200mV
-  double mod_signal_amp = (double)Param_mod_depth / 100 * 200;
-  // Max voltage is 480mV
-  uint16_t mod_signal_amp_n = (uint16_t)(mod_signal_amp / 480 * 1023);
+  uint16_t mod_signal_amp_n_1, mod_signal_amp_n_2;
 
-  // AD9959_Set_Signal(0, Param_carrier_freq * 1000000, 0, 1023);
-  // AD9959_Set_Signal(1, 2000000, 0, mod_signal_amp_n);
-  // AD9959_Set_Signal(2, Param_carrier_freq * 1000000, 0, 1023);
-  // AD9959_Set_Signal(3, 2000000, 0, mod_signal_amp_n);
+  if (Param_sd_type == SD_CW) {
+    // CW wave, mod signal amplitude is the least
+    mod_signal_amp_n_1 = 1;
+    mod_signal_amp_n_2 = 1;
+  } else {
+    // DC offset
+    double mod_signal_amp_1 = (double)Param_mod_depth / 100 * 188;
+    double mod_signal_amp_2 = (double)Param_mod_depth / 100 * 212;
+    // Max Vpp is 480mV, max voltage is 240mV
+    mod_signal_amp_n_1 = (uint16_t)(mod_signal_amp_1 / 240 * 1023);
+    mod_signal_amp_n_2 = (uint16_t)(mod_signal_amp_2 / 240 * 1023);
+  }
 
-  AD9959_Set_Signal(0, 2000000, 0, mod_signal_amp_n);
-  AD9959_Set_Signal(1, 2000000, 0, mod_signal_amp_n);
-  AD9959_Set_Signal(2, 2000000, 0, mod_signal_amp_n);
-  AD9959_Set_Signal(3, 2000000, 0, mod_signal_amp_n);
+  AD9959_Set_Signal(0, 2000000, 0, mod_signal_amp_n_1);
+  AD9959_Set_Signal(1, Param_carrier_freq * 1000000, 0, 1023);
+  AD9959_Set_Signal(2, Param_carrier_freq * 1000000, 0, 1023);
+  AD9959_Set_Signal(3, 2000000, 0, mod_signal_amp_n_2);
 }
 /* USER CODE END 4 */
 
