@@ -22,7 +22,7 @@
  * Key map (S4 at the left upper corner):
  * (Carrier Amp -)  (Carrier Amp +)   (Debug Carrier Amp) (Sd Type)
  * (Mod Depth -)    (Mod Depth +)     (Carrier Freq -)    (Carrier Freq +)
- * (Sm Amp Decay -) (Sm Amp Decay +)  [EMPTY]             [EMPTY]
+ * (Sm Amp Decay -) (Sm Amp Decay +)  (Debug Amplifier -) (Debug Amplifier +)
  * (Sm Delay -)     (Sm Delay +)      (Sm Phase -)        (Sm Phase +)
  ************************************************************************/
 
@@ -174,6 +174,14 @@ void ParamSet_Process(Matrix_Key key) {
     case MATRIX_KEY_6:
       __ParamSet_SetParam(&Param_sm_amp_decay, PARAMSET_STEPINFO_SM_AMP_DECAY, PARAMSET_STEP_ADD);
       __ParamSet_Sprint_SmAmpDecay();
+      break;
+
+    case MATRIX_KEY_10:
+      --Debug_carrier_amp_amplifier_n_steps;
+      break;
+
+    case MATRIX_KEY_14:
+      ++Debug_carrier_amp_amplifier_n_steps;
       break;
 
     // Row 4

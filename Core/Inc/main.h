@@ -106,8 +106,12 @@ void AD9959_UpdateParams();
 /* USER CODE BEGIN Private defines */
 #define UART_Buffer_Len 50
 
+#define DEBUG_CARRIER_AMP_AMPLIFIER_STEP_CH1 0.04
+#define DEBUG_CARRIER_AMP_AMPLIFIER_STEP_CH2 0.05
+
 extern uint16_t ad9959_amps[4];
 extern char UART_Buffer[UART_Buffer_Len];
+
 extern SD_Type Param_sd_type;
 extern uint16_t Param_carrier_amp;
 extern uint16_t Param_carrier_freq;
@@ -115,7 +119,10 @@ extern uint16_t Param_mod_depth;
 extern uint16_t Param_sm_amp_decay;
 extern uint16_t Param_sm_delay;
 extern uint16_t Param_sm_phase;
+
 extern uint8_t Debug_carrier_amp_max;
+
+extern int8_t Debug_carrier_amp_amplifier_n_steps;
 /* USER CODE END Private defines */
 
 #ifdef __cplusplus

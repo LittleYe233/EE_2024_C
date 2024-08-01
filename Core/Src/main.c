@@ -74,6 +74,8 @@ uint16_t Param_sm_delay;  // 50-200 ns
 uint16_t Param_sm_phase;  // 0-180 degree
 
 uint8_t Debug_carrier_amp_max = 0;  // If the carrier amp should be set to max
+
+int8_t Debug_carrier_amp_amplifier_n_steps = 0;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -314,8 +316,8 @@ void AD9959_UpdateParams() {
   } else {
     // Param_carrier_amp is RMS!!
     // Channel 1 (Sd) has an 8.7x amplifier, while Channel 2 (Sm) has an 8.2x amplifier.
-    carrier_amp_n_1 = (uint16_t)(Param_carrier_amp * 1.414 / CARRIER_AMP_AMPLIFIERS_CH1[Param_carrier_freq - 30] / AD9959_Max_Voltage * AD9959_Max_Quantification);
-    carrier_amp_n_2 = (uint16_t)(Param_carrier_amp * 1.414 / CARRIER_AMP_AMPLIFIERS_CH2[Param_carrier_freq - 30] / AD9959_Max_Voltage * AD9959_Max_Quantification * amp_decay_coef);
+    carrier_amp_n_1 = (uint16_t)(Param_carrier_amp * 1.414 / (CARRIER_AMP_AMPLIFIERS_CH1[Param_carrier_freq - 30] + Debug_carrier_amp_amplifier_n_steps * DEBUG_CARRIER_AMP_AMPLIFIER_STEP_CH1) / AD9959_Max_Voltage * AD9959_Max_Quantification);
+    carrier_amp_n_2 = (uint16_t)(Param_carrier_amp * 1.414 / (CARRIER_AMP_AMPLIFIERS_CH2[Param_carrier_freq - 30] + Debug_carrier_amp_amplifier_n_steps * DEBUG_CARRIER_AMP_AMPLIFIER_STEP_CH2) / AD9959_Max_Voltage * AD9959_Max_Quantification * amp_decay_coef);
   }
 
   uint16_t sm_phase_n = Param_sm_phase;
