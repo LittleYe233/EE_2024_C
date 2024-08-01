@@ -20,10 +20,10 @@
 
 /*************************************************************************
  * Key map:
- * (Carrier Amp -)  (Carrier Amp +)   (Sm Amp Decay -)  (Sm Amp Decay +)
- * (Carrier Freq -) (Carrier Freq +)  (Sm Delay -)      (Sm Delay +)
- * (Mod Depth -)    (Mod Depth +)     (Sm Phase -)      (Sm Phase +)
- * [EMPTY]          [EMPTY]           [EMPTY]           (Sd Type)
+ * (Carrier Amp -)  (Carrier Amp +)   (Sm Amp Decay -)        (Sm Amp Decay +)
+ * (Carrier Freq -) (Carrier Freq +)  (Sm Delay -)            (Sm Delay +)
+ * (Mod Depth -)    (Mod Depth +)     (Sm Phase -)            (Sm Phase +)
+ * [EMPTY]          [EMPTY]           (Debug Carrier Amp Max) (Sd Type)
  ************************************************************************/
 
 const ParamSet_StepInfo_TypeDef PARAMSET_STEPINFO_CARRIER_AMP = { 100, 1000, 100 };
