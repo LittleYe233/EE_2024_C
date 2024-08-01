@@ -153,7 +153,7 @@ int main(void)
     Matrix_Key key = MatrixKeyboard_Test();
     ParamSet_Process(key);
     // Add delay to reduce output signal glitch
-    HAL_Delay(100);
+    HAL_Delay(25);
   }
   /* USER CODE END 3 */
 }
