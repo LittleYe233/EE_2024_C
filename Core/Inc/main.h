@@ -40,6 +40,11 @@ typedef enum {
   SD_CW,  // CW wave
   SD_AM   // AM wave
 } SD_Type;
+
+typedef enum {
+  DEBUG_AMP_STEP_CH1,
+  DEBUG_AMP_STEP_CH2
+} DEBUG_Amp_Step_Ch;
 /* USER CODE END ET */
 
 /* Exported constants --------------------------------------------------------*/
@@ -122,7 +127,9 @@ extern uint16_t Param_sm_phase;
 
 extern uint8_t Debug_carrier_amp_max;
 
-extern int8_t Debug_carrier_amp_amplifier_n_steps;
+extern DEBUG_Amp_Step_Ch Debug_amp_step_ch;
+extern int8_t Debug_carrier_amp_amplifier_n_steps_ch1[11];
+extern int8_t Debug_carrier_amp_amplifier_n_steps_ch2[11];
 /* USER CODE END Private defines */
 
 #ifdef __cplusplus

@@ -20,10 +20,10 @@
 
 /*************************************************************************
  * Key map (S4 at the left upper corner):
- * (Carrier Amp -)  (Carrier Amp +)   (Debug Carrier Amp) (Sd Type)
- * (Mod Depth -)    (Mod Depth +)     (Carrier Freq -)    (Carrier Freq +)
- * (Sm Amp Decay -) (Sm Amp Decay +)  (Debug Amplifier -) (Debug Amplifier +)
- * (Sm Delay -)     (Sm Delay +)      (Sm Phase -)        (Sm Phase +)
+ * (Carrier Amp -)  (Carrier Amp +)   (Debug Amplifier Ch)  (Sd Type)
+ * (Mod Depth -)    (Mod Depth +)     (Carrier Freq -)      (Carrier Freq +)
+ * (Sm Amp Decay -) (Sm Amp Decay +)  (Debug Amplifier -)   (Debug Amplifier +)
+ * (Sm Delay -)     (Sm Delay +)      (Sm Phase -)          (Sm Phase +)
  ************************************************************************/
 
 const ParamSet_StepInfo_TypeDef PARAMSET_STEPINFO_CARRIER_AMP = { 100, 1000, 100 };
@@ -128,10 +128,10 @@ void ParamSet_Process(Matrix_Key key) {
       break;
 
     case MATRIX_KEY_12:
-      if (Debug_carrier_amp_max) {
-        Debug_carrier_amp_max = 0;
+      if (Debug_amp_step_ch == DEBUG_AMP_STEP_CH1) {
+        Debug_amp_step_ch = DEBUG_AMP_STEP_CH2;
       } else {
-        Debug_carrier_amp_max = 1;
+        Debug_amp_step_ch = DEBUG_AMP_STEP_CH1;
       }
       break;
 
@@ -177,11 +177,19 @@ void ParamSet_Process(Matrix_Key key) {
       break;
 
     case MATRIX_KEY_10:
-      --Debug_carrier_amp_amplifier_n_steps;
+      if (Debug_amp_step_ch == DEBUG_AMP_STEP_CH1) {
+        --Debug_carrier_amp_amplifier_n_steps_ch1[Param_carrier_freq - 30];
+      } else {
+        --Debug_carrier_amp_amplifier_n_steps_ch2[Param_carrier_freq - 30];
+      }
       break;
 
     case MATRIX_KEY_14:
-      ++Debug_carrier_amp_amplifier_n_steps;
+      if (Debug_amp_step_ch == DEBUG_AMP_STEP_CH1) {
+        ++Debug_carrier_amp_amplifier_n_steps_ch1[Param_carrier_freq - 30];
+      } else {
+        ++Debug_carrier_amp_amplifier_n_steps_ch2[Param_carrier_freq - 30];
+      }
       break;
 
     // Row 4
