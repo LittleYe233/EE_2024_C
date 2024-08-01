@@ -62,6 +62,8 @@ uint16_t Param_mod_depth;  // 30-90 %
 uint16_t Param_sm_amp_decay;  // 0-20 dB
 uint16_t Param_sm_delay;  // 50-200 ns
 uint16_t Param_sm_phase;  // 0-180 degree
+
+uint8_t Debug_carrier_amp_max = 0;  // If the carrier amp should be set to max
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -278,6 +280,7 @@ Matrix_Key MatrixKeyboard_Test() {
 void AD9959_UpdateParams() {
   uint16_t mod_signal_amp_n_1, mod_signal_amp_n_2;
   double sm_carrier_delay_to_degree, mod_signal_delay_to_degree;
+  uint16_t carrier_amp_n_1, carrier_amp_n_2;
 
   if (Param_sd_type == SD_CW) {
     // CW wave, mod signal amplitude is the least
@@ -292,10 +295,18 @@ void AD9959_UpdateParams() {
     mod_signal_amp_n_2 = (uint16_t)(mod_signal_amp_2 / 250 * AD9959_Max_Quantification);
   }
 
-  // Param_carrier_amp is RMS!!
-  // Channel 1 (Sd) has an 8.7x amplifier, while Channel 2 (Sm) has an 8.2x amplifier.
-  uint16_t carrier_amp_n_1 = (uint16_t)(Param_carrier_amp * 1.414 / 8.6 / AD9959_Max_Voltage * AD9959_Max_Quantification);
-  uint16_t carrier_amp_n_2 = (uint16_t)(Param_carrier_amp * 1.414 / 7.7 / AD9959_Max_Voltage * AD9959_Max_Quantification);
+  // Amp decay
+  double amp_decay_coef = pow(10, -(double)Param_sm_amp_decay / 20);
+
+  if (Debug_carrier_amp_max) {
+    carrier_amp_n_1 = AD9959_Max_Quantification;
+    carrier_amp_n_2 = AD9959_Max_Quantification;
+  } else {
+    // Param_carrier_amp is RMS!!
+    // Channel 1 (Sd) has an 8.7x amplifier, while Channel 2 (Sm) has an 8.2x amplifier.
+    carrier_amp_n_1 = (uint16_t)(Param_carrier_amp * 1.414 / 8.6 / AD9959_Max_Voltage * AD9959_Max_Quantification);
+    carrier_amp_n_2 = (uint16_t)(Param_carrier_amp * 1.414 / 7.7 / AD9959_Max_Voltage * AD9959_Max_Quantification * amp_decay_coef);
+  }
 
   uint16_t sm_phase_n = Param_sm_phase;
 
@@ -312,12 +323,9 @@ void AD9959_UpdateParams() {
   uint16_t sm_phase_carrier_final = (uint16_t)(230 + sm_phase_n + sm_carrier_delay_to_degree) % 360;
   uint16_t sm_phase_mod_signal_final = (uint16_t)(230 + sm_phase_n + mod_signal_delay_to_degree) % 360;
 
-  // Amp decay
-  double amp_decay_coef = pow(10, -(double)Param_sm_amp_decay / 20);
-
   AD9959_Set_Signal(0, 2000000, sm_phase_mod_signal_final, mod_signal_amp_n_1);
   AD9959_Set_Signal(1, Param_carrier_freq * 1000000, sm_phase_carrier_final, carrier_amp_n_1);
-  AD9959_Set_Signal(2, Param_carrier_freq * 1000000, 0, (uint16_t)(carrier_amp_n_2 * amp_decay_coef));
+  AD9959_Set_Signal(2, Param_carrier_freq * 1000000, 0, carrier_amp_n_2);
   AD9959_Set_Signal(3, 2000000, 0, (uint16_t)(mod_signal_amp_n_2 * amp_decay_coef));
 }
 /* USER CODE END 4 */

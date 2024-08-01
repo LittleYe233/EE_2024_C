@@ -115,6 +115,7 @@ extern uint16_t Param_mod_depth;
 extern uint16_t Param_sm_amp_decay;
 extern uint16_t Param_sm_delay;
 extern uint16_t Param_sm_phase;
+extern uint8_t Debug_carrier_amp_max;
 /* USER CODE END Private defines */
 
 #ifdef __cplusplus

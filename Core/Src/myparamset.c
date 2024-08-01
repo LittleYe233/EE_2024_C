@@ -176,6 +176,14 @@ void ParamSet_Process(Matrix_Key key) {
       __ParamSet_Sprint_SmPhase();
       break;
 
+    case MATRIX_KEY_15:
+      if (Debug_carrier_amp_max) {
+        Debug_carrier_amp_max = 0;
+      } else {
+        Debug_carrier_amp_max = 1;
+      }
+      break;
+
     case MATRIX_KEY_16:
       if (Param_sd_type == SD_CW) {
         Param_sd_type = SD_AM;
