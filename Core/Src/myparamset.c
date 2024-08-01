@@ -19,11 +19,11 @@
 #ifdef MYPARAMSET_PRESET_FULL
 
 /*************************************************************************
- * Key map:
- * (Carrier Amp -)  (Carrier Amp +)   (Sm Amp Decay -)        (Sm Amp Decay +)
- * (Carrier Freq -) (Carrier Freq +)  (Sm Delay -)            (Sm Delay +)
- * (Mod Depth -)    (Mod Depth +)     (Sm Phase -)            (Sm Phase +)
- * [EMPTY]          [EMPTY]           (Debug Carrier Amp Max) (Sd Type)
+ * Key map (S4 at the left upper corner):
+ * (Carrier Amp -)  (Carrier Amp +)   (Debug Carrier Amp) (Sd Type)
+ * (Mod Depth -)    (Mod Depth +)     (Carrier Freq -)    (Carrier Freq +)
+ * (Sm Amp Decay -) (Sm Amp Decay +)  [EMPTY]             [EMPTY]
+ * (Sm Delay -)     (Sm Delay +)      (Sm Phase -)        (Sm Phase +)
  ************************************************************************/
 
 const ParamSet_StepInfo_TypeDef PARAMSET_STEPINFO_CARRIER_AMP = { 100, 1000, 100 };
@@ -116,67 +116,18 @@ void ParamSet_Process(Matrix_Key key) {
   uint8_t flag_need_uart_transmit = 1;
 
   switch (key) {
-    case MATRIX_KEY_1:
+    // Row 1
+    case MATRIX_KEY_4:
       __ParamSet_SetParam(&Param_carrier_amp, PARAMSET_STEPINFO_CARRIER_AMP, PARAMSET_STEP_MINUS);
       __ParamSet_Sprint_CarrierAmp();
       break;
     
-    case MATRIX_KEY_2:
+    case MATRIX_KEY_8:
       __ParamSet_SetParam(&Param_carrier_amp, PARAMSET_STEPINFO_CARRIER_AMP, PARAMSET_STEP_ADD);
       __ParamSet_Sprint_CarrierAmp();
       break;
 
-    case MATRIX_KEY_3:
-      __ParamSet_SetParam(&Param_sm_amp_decay, PARAMSET_STEPINFO_SM_AMP_DECAY, PARAMSET_STEP_MINUS);
-      __ParamSet_Sprint_SmAmpDecay();
-      break;
-
-    case MATRIX_KEY_4:
-      __ParamSet_SetParam(&Param_sm_amp_decay, PARAMSET_STEPINFO_SM_AMP_DECAY, PARAMSET_STEP_ADD);
-      __ParamSet_Sprint_SmAmpDecay();
-      break;
-
-    case MATRIX_KEY_5:
-      __ParamSet_SetParam(&Param_carrier_freq, PARAMSET_STEPINFO_CARRIER_FREQ, PARAMSET_STEP_MINUS);
-      __ParamSet_Sprint_CarrierFreq();
-      break;
-
-    case MATRIX_KEY_6:
-      __ParamSet_SetParam(&Param_carrier_freq, PARAMSET_STEPINFO_CARRIER_FREQ, PARAMSET_STEP_ADD);
-      __ParamSet_Sprint_CarrierFreq();
-      break;
-
-    case MATRIX_KEY_7:
-      __ParamSet_SetParam(&Param_sm_delay, PARAMSET_STEPINFO_SM_DELAY, PARAMSET_STEP_MINUS);
-      __ParamSet_Sprint_SmDelay();
-      break;
-
-    case MATRIX_KEY_8:
-      __ParamSet_SetParam(&Param_sm_delay, PARAMSET_STEPINFO_SM_DELAY, PARAMSET_STEP_ADD);
-      __ParamSet_Sprint_SmDelay();
-      break;
-
-    case MATRIX_KEY_9:
-      __ParamSet_SetParam(&Param_mod_depth, PARAMSET_STEPINFO_MOD_DEPTH, PARAMSET_STEP_MINUS);
-      __ParamSet_Sprint_ModDepth();
-      break;
-
-    case MATRIX_KEY_10:
-      __ParamSet_SetParam(&Param_mod_depth, PARAMSET_STEPINFO_MOD_DEPTH, PARAMSET_STEP_ADD);
-      __ParamSet_Sprint_ModDepth();
-      break;
-
-    case MATRIX_KEY_11:
-      __ParamSet_SetParam(&Param_sm_phase, PARAMSET_STEPINFO_SM_PHASE, PARAMSET_STEP_MINUS);
-      __ParamSet_Sprint_SmPhase();
-      break;
-
     case MATRIX_KEY_12:
-      __ParamSet_SetParam(&Param_sm_phase, PARAMSET_STEPINFO_SM_PHASE, PARAMSET_STEP_ADD);
-      __ParamSet_Sprint_SmPhase();
-      break;
-
-    case MATRIX_KEY_15:
       if (Debug_carrier_amp_max) {
         Debug_carrier_amp_max = 0;
       } else {
@@ -191,6 +142,59 @@ void ParamSet_Process(Matrix_Key key) {
         Param_sd_type = SD_CW;
       }
       __ParamSet_Sprint_SdType();
+      break;
+
+    // Row 2
+    case MATRIX_KEY_3:
+      __ParamSet_SetParam(&Param_mod_depth, PARAMSET_STEPINFO_MOD_DEPTH, PARAMSET_STEP_MINUS);
+      __ParamSet_Sprint_ModDepth();
+      break;
+
+    case MATRIX_KEY_7:
+      __ParamSet_SetParam(&Param_mod_depth, PARAMSET_STEPINFO_MOD_DEPTH, PARAMSET_STEP_ADD);
+      __ParamSet_Sprint_ModDepth();
+      break;
+
+    case MATRIX_KEY_11:
+      __ParamSet_SetParam(&Param_carrier_freq, PARAMSET_STEPINFO_CARRIER_FREQ, PARAMSET_STEP_MINUS);
+      __ParamSet_Sprint_CarrierFreq();
+      break;
+
+    case MATRIX_KEY_15:
+      __ParamSet_SetParam(&Param_carrier_freq, PARAMSET_STEPINFO_CARRIER_FREQ, PARAMSET_STEP_ADD);
+      __ParamSet_Sprint_CarrierFreq();
+      break;
+
+    // Row 3
+    case MATRIX_KEY_2:
+      __ParamSet_SetParam(&Param_sm_amp_decay, PARAMSET_STEPINFO_SM_AMP_DECAY, PARAMSET_STEP_MINUS);
+      __ParamSet_Sprint_SmAmpDecay();
+      break;
+
+    case MATRIX_KEY_6:
+      __ParamSet_SetParam(&Param_sm_amp_decay, PARAMSET_STEPINFO_SM_AMP_DECAY, PARAMSET_STEP_ADD);
+      __ParamSet_Sprint_SmAmpDecay();
+      break;
+
+    // Row 4
+    case MATRIX_KEY_1:
+      __ParamSet_SetParam(&Param_sm_delay, PARAMSET_STEPINFO_SM_DELAY, PARAMSET_STEP_MINUS);
+      __ParamSet_Sprint_SmDelay();
+      break;
+
+    case MATRIX_KEY_5:
+      __ParamSet_SetParam(&Param_sm_delay, PARAMSET_STEPINFO_SM_DELAY, PARAMSET_STEP_ADD);
+      __ParamSet_Sprint_SmDelay();
+      break;
+
+    case MATRIX_KEY_9:
+      __ParamSet_SetParam(&Param_sm_phase, PARAMSET_STEPINFO_SM_PHASE, PARAMSET_STEP_MINUS);
+      __ParamSet_Sprint_SmPhase();
+      break;
+
+    case MATRIX_KEY_13:
+      __ParamSet_SetParam(&Param_sm_phase, PARAMSET_STEPINFO_SM_PHASE, PARAMSET_STEP_ADD);
+      __ParamSet_Sprint_SmPhase();
       break;
 
     default:
