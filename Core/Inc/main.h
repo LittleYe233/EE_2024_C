@@ -111,8 +111,8 @@ void AD9959_UpdateParams();
 /* USER CODE BEGIN Private defines */
 #define UART_Buffer_Len 50
 
-#define DEBUG_CARRIER_AMP_AMPLIFIER_STEP_CH1 0.04
-#define DEBUG_CARRIER_AMP_AMPLIFIER_STEP_CH2 0.05
+#define DEBUG_CARRIER_AMP_AMPLIFIER_STEP_CH1 0.08
+#define DEBUG_CARRIER_AMP_AMPLIFIER_STEP_CH2 0.1
 
 extern uint16_t ad9959_amps[4];
 extern char UART_Buffer[UART_Buffer_Len];
