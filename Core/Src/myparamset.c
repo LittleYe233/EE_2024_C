@@ -89,12 +89,12 @@ static void __ParamSet_Transmit() {
 
 void ParamSet_Init() {
   Param_sd_type = SD_AM;
-  Param_carrier_amp = 500;
+  Param_carrier_amp = 1000;
   Param_carrier_freq = 35;
   Param_mod_depth = 60;
-  Param_sm_amp_decay = 10;
-  Param_sm_delay = 140;
-  Param_sm_phase = 90;
+  Param_sm_amp_decay = 0;
+  Param_sm_delay = 50;
+  Param_sm_phase = 0;
 
   __ParamSet_Sprint_SdType();
   __ParamSet_Transmit();

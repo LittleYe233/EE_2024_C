@@ -24,6 +24,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include <math.h>
 #include <stdio.h>
 #include <string.h>
 #include "bsp_ad9959.h"
@@ -293,8 +294,8 @@ void AD9959_UpdateParams() {
 
   // Param_carrier_amp is RMS!!
   // Channel 1 (Sd) has an 8.7x amplifier, while Channel 2 (Sm) has an 8.2x amplifier.
-  uint16_t carrier_amp_n_1 = (uint16_t)(Param_carrier_amp * 1.414 / 8.7 / AD9959_Max_Voltage * AD9959_Max_Quantification);
-  uint16_t carrier_amp_n_2 = (uint16_t)(Param_carrier_amp * 1.414 / 8.2 / AD9959_Max_Voltage * AD9959_Max_Quantification);
+  uint16_t carrier_amp_n_1 = (uint16_t)(Param_carrier_amp * 1.414 / 8.6 / AD9959_Max_Voltage * AD9959_Max_Quantification);
+  uint16_t carrier_amp_n_2 = (uint16_t)(Param_carrier_amp * 1.414 / 7.7 / AD9959_Max_Voltage * AD9959_Max_Quantification);
 
   uint16_t sm_phase_n = Param_sm_phase;
 
@@ -311,10 +312,13 @@ void AD9959_UpdateParams() {
   uint16_t sm_phase_carrier_final = (uint16_t)(230 + sm_phase_n + sm_carrier_delay_to_degree) % 360;
   uint16_t sm_phase_mod_signal_final = (uint16_t)(230 + sm_phase_n + mod_signal_delay_to_degree) % 360;
 
+  // Amp decay
+  double amp_decay_coef = pow(10, -(double)Param_sm_amp_decay / 20);
+
   AD9959_Set_Signal(0, 2000000, sm_phase_mod_signal_final, mod_signal_amp_n_1);
   AD9959_Set_Signal(1, Param_carrier_freq * 1000000, sm_phase_carrier_final, carrier_amp_n_1);
-  AD9959_Set_Signal(2, Param_carrier_freq * 1000000, 0, carrier_amp_n_2);
-  AD9959_Set_Signal(3, 2000000, 0, mod_signal_amp_n_2);
+  AD9959_Set_Signal(2, Param_carrier_freq * 1000000, 0, (uint16_t)(carrier_amp_n_2 * amp_decay_coef));
+  AD9959_Set_Signal(3, 2000000, 0, (uint16_t)(mod_signal_amp_n_2 * amp_decay_coef));
 }
 /* USER CODE END 4 */
 
